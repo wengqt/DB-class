@@ -1,4 +1,4 @@
-##全局约定
+#全局约定
 ```
     时间格式 : 2017-12-31 23:59:59
     url: 'http://hostname:3000/'+interfacename
@@ -7,9 +7,9 @@
     300:"failed"
 ```
 
-###无权限接口
+##无权限接口
 
-####login  
+###login  
 url:/login  
 method:post  
 req:
@@ -38,8 +38,8 @@ res:
 
 
 
-###学生权限接口
-####getStudentInfo
+##学生权限接口
+###getStudentInfo
 url:/student/getStudentInfo  
 method:get  
 req:  
@@ -68,7 +68,7 @@ res:
     }
 ```
 
-####putStudentInfo
+###putStudentInfo
 url:/student/putStudentInfo  
 method:post  
 req:
@@ -96,7 +96,7 @@ res:
     }
 ```
 
-####getCourseList
+###getCourseList  
 url:/student/getCourseList  
 method:get  
 req:
@@ -118,7 +118,7 @@ res:
       },{}]
     }
 ```
-####getCourseScore
+###getCourseScore  
 url:/student/getCourseScore    
 method:get  
 req:
@@ -146,7 +146,7 @@ res:
     }
 ```
 
-####studentChooseCourse
+###studentChooseCourse  
 url:/student/chooseCourse   
 method:post  
 req:
@@ -171,7 +171,7 @@ res:
    
 ```
 
-####studentDropCourse
+###studentDropCourse  
 url:/student/dropCourse/  
 method:post  
 req:  
@@ -193,12 +193,34 @@ res:
           "data":{}
         }
 ```
+###getExperience  
+url:/student/getExperience  
+method:get  
+req:  
+```json
+    { 
+    }
+```
+res:  
+```
+    {
+      "status":200,
+      "message":"success",
+      "data":{}
+    },
+    {
+          "status":300,
+          "message":"failed",
+          "data":{}
+        }
+```
 
 
-###teacher auth
+##teacher auth  
 
-####getTeacherInfo
-url:/teacher/getTeacherInfo/${tid}  
+###getTeacherInfo  
+获取个人信息  
+url:/teacher/getTeacherInfo  
 method:get  
 req:
 ```json
@@ -226,18 +248,14 @@ res:
             }
 ```  
 
-####putTeacherInfo  
-url:/teacher/putTeacherInfo/${tid}  
+###putTeacherInfo  
+修改个人信息  
+url:/teacher/putTeacherInfo  
 method:post  
 req:
 ```json
-    {
-            "name":"string",
-            "age":"int",
-            "idCard":"string",
-            "birth":"string",
-            "gender":"string",
-            "phone":"string"
+    {           
+     "phone":"string"
     }
 ```
 res:
@@ -253,8 +271,8 @@ res:
           "data":{}
         }
 ```
-####t_getCourseList
-url:/teacher/getCourseList/${tid}  
+###t_getCourseList
+url:/teacher/getCourseList  
 method:get  
 req:
 ```json
@@ -265,20 +283,22 @@ res:
     {      "status":200,
            "message":"ok",
            "data":[
-            {"cid":"a",
-             "cname":"a"
+            {"c_name": "database",
+            "c_id": "11111",
+            "c_date": "1-2周$1-2,2-1,3-2,4-1",
+            "c_address": "5-201"
             },{}
            ]
     
     }
 ```
-####getCourseStudent
-url:/teacher/getCourseStudent/${tid}  
+###getCourseStudent
+url:/teacher/getCourseStudent/${cid}  
 method:get  
 req:
 ```json
     {
-      "cid":""
+      
     }
 ```
 res:
@@ -289,18 +309,43 @@ res:
                  "data":[
                   {"sid":"a",
                    "sname":"a",
-                   "smsg":[{"e_type":"","e_msg":"","e_id":""},{}],
                    "score":""
                   },{}
                  ]
     }
+```  
+
+###getStudentEXperience
+url:/teacher/getStudentEXperience/${sid}  
+method:get  
+req:
+```json
+    {
+      
+    }
 ```
-####scoreStudent
-url:/teacher/scoreStudent/${tid}  
+res:
+```json
+    {
+                "status":200,
+                 "message":"ok",
+                 "data":[
+                  {
+           			 "e_type": "1",
+           			 "e_msg": "太帅了",
+           			 "e_id": "001"
+       			 },{}
+                 ]
+    }
+```
+
+###scoreStudent  
+url:/teacher/scoreStudent  
 method:post  
 req:
 ```json
     {
+    "sid":""
     "cid":"",
     "score":""
     }
@@ -312,7 +357,26 @@ res:
       "data":{}
     }
 ```
-####putCourseDetail
+###发布奖惩
+url:/teacher/addStudentExperience  
+method:post  
+req:
+```
+	{
+	"sid":""
+	"etype":"",
+	"emsg":""
+	}
+```
+res:
+```json
+    {
+    	"status":200,
+      "message":"ok",
+      "data":{}
+    }
+```
+###putCourseDetail
 url:/teacher/putCourseDetail/${tid}  
 method:post  
 req:

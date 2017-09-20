@@ -4,6 +4,7 @@ var mysql = require('mysql');
 var app = express();
 var login = require('./module/login');
 var student = require('./module/student');
+var teacher = require('./module/teacher');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -11,7 +12,21 @@ var bodyParser = require('body-parser');
 app.use(cookieParser());
 app.use(bodyParser());
 var jsonParser = bodyParser.json()
-
+app.all('*', function(req, res, next) {  
+    // res.header('Access-Control-Allow-Origin', "*");
+    // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");  
+    // res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");  
+    // res.header("X-Powered-By",' 3.2.1');
+    res.header("Content-Type", "application/json;charset=utf-8"); 
+    // res.header('Access-Control-Allow-Origin', req.headers.origin);
+    
+        //将外源设为指定的域，比如：http://localhost:8080
+    //将Access-Control-Allow-Credentials设为true
+    res.header('Access-Control-Allow-Credentials', true); 
+    // console.log(req.headers);
+    
+    next();  
+});  
 // // create application/x-www-form-urlencoded parser
 // var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
@@ -51,6 +66,10 @@ app.use(bodyParser.text({ type: 'text/html' }))
 });  
 login(app);
 student(app);
+teacher(app);
+
+
+
 // var pool = mysql.createPool({
 //     host:'localhost',
 //     port:3306,

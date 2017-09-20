@@ -18,7 +18,7 @@ module.exports = function(app){
 
 
     //修改个人信息
-    app.get('/student/putStudentInfo',(req,res)=>{
+    app.post('/student/putStudentInfo',(req,res)=>{
         if(!req.session.user){
             res.send({status:303,data:{},message:'请登录'});
             res.redirect('/');
@@ -171,6 +171,28 @@ module.exports = function(app){
                 res.send({status:300,data:{},message:'课程不存在'});
             });
             
+        }
+    });
+
+
+
+    app.get('/student/getExperience',(req,res)=>{
+        if(!req.session.user){
+            res.send({status:303,data:{},message:'请登录'});
+            res.redirect('/');
+        }else{
+            var id = req.session.user;
+            // console.log(id);
+            res.setHeader('Content-Type','application/json');
+            sql(`select e.e_type,e.e_msg,e.e_id
+            from experience e,studentExperience se
+            where se.s_id = ${id} and se.e_id = e.e_id `,function(success_data){
+                 console.log(success_data);
+                res.send({status:200,data:success_data,message:'获取奖惩记录成功'});
+                
+            },function(){
+                res.send({status:300,data:{},message:'数据库操作失败'});
+            });
         }
     });
 
