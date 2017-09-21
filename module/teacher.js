@@ -145,14 +145,14 @@ module.exports = function(app){
             var sid = req.body.sid;
             var etype = req.body.etype;
             var emsg = req.body.emsg;
-            
+            console.log(etype,emsg)
             // console.log(sid);
             var id = req.session.user;
             // console.log(id);
             res.setHeader('Content-Type','application/json');
 
-            sql(`insert into experience (e_type,e_msg) values(${etype},${emsg})`,function(success_data){
-                 console.log(success_data.insertId);
+            sql(`insert into experience (e_type,e_msg) values('${etype}','${emsg}')`,function(success_data){
+                 console.log(success_data);
                 
                 sql(`insert into studentExperience (e_id,s_id) values (${success_data.insertId},${sid})`,function(success_data1){
                     res.send({status:200,data:{},message:'发布奖惩记录成功'});
@@ -168,6 +168,51 @@ module.exports = function(app){
         }
     });
 
+    //修改奖惩
+    app.post('/teacher/putStudentExperience',(req,res)=>{
+        if(!req.session.user){
+            res.send({status:303,data:{},message:'请登录'});
+            res.redirect('/');
+        }else{
+            var sid = req.body.sid;
+            var etype = req.body.etype;
+            var emsg = req.body.emsg;
+            var eid = req.body.eid;
+            // console.log(sid);
+            var id = req.session.user;
+            // console.log(id);
+            res.setHeader('Content-Type','application/json');
+
+            sql(`update studentExperience set e_type=${etype},e_msg = ${emsg}where e_id=${eid} `,function(success_data){
+                res.send({status:200,data:{},message:'修改奖惩记录成功'});
+                
+            },function(){
+                res.send({status:200,data:{},message:'修改奖惩失败'});
+                
+            })
+        }
+    });
+
+    //修改kechengxinxi 
+    app.post('/teacher/putCourseDetail',(req,res)=>{
+        if(!req.session.user){
+            res.send({status:303,data:{},message:'请登录'});
+            res.redirect('/');
+        }else{
+            var cid = req.body.cid;
+            var caddress = req.body.caddress;
+             console.log(cid);
+            var id = req.session.user;
+             console.log(caddress);
+            res.setHeader('Content-Type','application/json');
+
+            sql(`update course set c_address='${caddress}' where c_id='${cid}' `,function(success_data){
+                res.send({status:200,data:{},message:'修改课堂地址成功'});
+            },function(){
+                res.send({status:300,data:{},message:'failed'});
+            })
+        }
+    });
 
 
 

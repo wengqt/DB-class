@@ -43,7 +43,7 @@ module.exports = function(app){
         }else{
             var id = req.session.user;
             res.setHeader('Content-Type','application/json');
-            sql(`select c.c_name,c.c_id,c.c_date,c.c_address,t.t_name,c.c_property
+            sql(`select c.c_name,c.c_id,c.c_date,c.c_address,t.t_name,c.c_property,c.c_credit
             from studentCourse sc,course c,teacherCourse tc,teacher t
             where sc.s_id = ${id} and sc.c_id = c.c_id and tc.c_id = sc.c_id and t.t_id=tc.t_id and sc.score is null`,function(success_data){
                 console.log(success_data);

@@ -376,29 +376,41 @@ res:
       "data":{}
     }
 ```
+###修改奖惩
+url:/teacher/putStudentExperience  
+method:post  
+req:
+```
+	{
+	"sid":"",
+	"eid":"",
+	"etype":"",
+	"emsg":""
+	}
+```
+res:
+```json
+    {
+    	"status":200,
+      "message":"ok",
+      "data":{}
+    }
+```
+
+
 ###putCourseDetail
-url:/teacher/putCourseDetail/${tid}  
+url:/teacher/putCourseDetail     
 method:post  
 req:
+```json
+	{
+	"cid":"",
+	"caddress":""
+	}
+```
 res:
+```json
+	{status:200,data:{},message:'修改课堂地址成功'}
+```
 
-<!--####publishCourse-->
-<!--url:/teacher/publishCourse/${tid}  -->
-<!--method:post  -->
-<!--req:-->
-<!--res:-->
-
-<!--####deleteCourse-->
-
-####putStudentExperience
-url:/teacher/putStudentExperience/${tid}  
-method:post  
-req:
-res:
-
-####publishStudentExperience
-url:/teacher/publishStudentExperience/${tid}  
-method:post  
-req:
-res:
 

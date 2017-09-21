@@ -23,7 +23,7 @@ module.exports = function (sql,success,failed){
         poolconnect.query(sql,function(err,result){
             
             
-            if(err) {console.log('查询失败');
+            if(err) {console.log(err);console.log('查询失败');
             // failed_data = {status:300,data:{},message:'fail to operate the DataBase'};
             failed();
         }

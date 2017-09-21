@@ -1,6 +1,7 @@
 var  http  = require('http');
 var  express= require('express');
 var mysql = require('mysql');
+var superviser = require('supervisor');
 var app = express();
 var login = require('./module/login');
 var student = require('./module/student');
@@ -18,12 +19,12 @@ app.all('*', function(req, res, next) {
     // res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");  
     // res.header("X-Powered-By",' 3.2.1');
     res.header("Content-Type", "application/json;charset=utf-8"); 
-    // res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
     
         //将外源设为指定的域，比如：http://localhost:8080
     //将Access-Control-Allow-Credentials设为true
     res.header('Access-Control-Allow-Credentials', true); 
-    // console.log(req.headers);
+    //  console.log(req.headers);
     
     next();  
 });  
