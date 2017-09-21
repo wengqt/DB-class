@@ -74,11 +74,6 @@ method:post
 req:
 ```json
     {
-        "name":"string",
-        "age":"int",
-        "idCard":"string",
-        "birth":"string",
-        "gender":"string",
         "phone":"string"
     }
 ```
@@ -413,4 +408,47 @@ res:
 	{status:200,data:{},message:'修改课堂地址成功'}
 ```
 
+
+
+##admin
+###获取学生列表  
+url：/admin/getStudentList
+req:{}
+res:{
+    "status": 200,
+    "data": [
+        {
+            "s_id": "201500111002",
+            "s_name": "aaa",
+            "s_birth": "1999-02-17T16:00:00.000Z",
+            "s_idcard": "330191199902181882",
+            "s_password": "111",
+            "s_gender": "男",
+            "s_phone": "17864152222",
+            "s_grade": "2015-09-08T16:00:00.000Z",
+            "s_class": "06",
+            "m_id": "1",
+            "l_id": null
+        }
+    ],
+    "message": "success get student list"
+}
+
+###获取某个学生信息
+
+url:/admin/getStudentInfo/:sid
+req:{}
+res:{
+            "s_id": "201500111002",
+            "s_name": "aaa",
+            "s_birth": "1999-02-17T16:00:00.000Z",
+            "s_idcard": "330191199902181882",
+            "s_password": "111",
+            "s_gender": "男",
+            "s_phone": "17864152222",
+            "s_grade": "2015-09-08T16:00:00.000Z",
+            "s_class": "06",
+            "m_id": "1",
+            "l_id": null
+        }
 

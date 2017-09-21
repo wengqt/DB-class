@@ -65,9 +65,9 @@ module.exports = function(app){
             var cid = req.params.cid;
             var id = req.session.user;
             res.setHeader('Content-Type','application/json');
-            sql(`select s.s_id s.s_name sc.score
-            from studentCourse sc,course c,student s
-            where sc.c_id = ${cid} and sc.s_id = s.s_id`,function(success_data){
+            sql(`select s.s_id,s.s_name,sc.score
+            from studentCourse sc,student s
+            where sc.c_id = ${cid} and s.s_id=sc.s_id `,function(success_data){
                 console.log(success_data);
                 res.send({status:200,data:success_data,message:'获取成绩成功'});
                 

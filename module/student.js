@@ -24,8 +24,9 @@ module.exports = function(app){
             res.redirect('/');
         }else{
             var id = req.session.user;
+            console.log(req.body.phone);
             res.setHeader('Content-Type','application/json');
-            sql(`UPDATE student SET s_phone = ${req.params.phone}
+            sql(`UPDATE student SET s_phone = ${req.body.phone}
             WHERE s_id = ${id} `,function(success_data){
                 res.send({status:200,data:{},message:'个人信息修改成功'});
                 
@@ -87,56 +88,63 @@ module.exports = function(app){
             var times = 1;
             res.setHeader('Content-Type','application/json');
             // console.log(cid);
-            sql(`select count(*) times from studentCourse
-            where s_id = ${id} and c_id = ${cid}
-            group by s_id,c_id`,function(success_data){
-                if(success_data.length==0){
-                    sql(`INSERT INTO studentCourse (s_id, c_id, times) VALUES (${id}, ${cid}, ${times});
-                    `,function(success_data){
-                        // console.log(success_data);
-                        res.send({status:200,data:{},message:'选课成功'});
-                        
-                    },function(){
-                        res.send({status:300,data:{},message:'数据库操作失败'});
-                    });
+            sql(`select c_id from course where c_id=${cid}`,function(da){
+                if(da.length==0){
+                    res.send({status:301,data:{},message:'不存在该课程'});
                 }else{
-                    sql(`select score from studentCourse
-                    where s_id = ${id} and c_id = ${cid} and times = ${success_data[0].times}`,function(data){
-                        console.log(data[0].score);
-                        if(data[0].score != null){
-                            times = success_data[0].times+1;
-                            console.log(times);
-                           sql(`INSERT INTO studentCourse (s_id, c_id, times) VALUES (${id}, ${cid}, ${times});
-                           `,function(success_data){
-                               // console.log(success_data);
-                               res.send({status:200,data:{},message:'选课成功'});
-                               
-                           },function(){
-                               res.send({status:300,data:{},message:'数据库操作失败'});
-                           });
+                    sql(`select count(*) times from studentCourse
+                    where s_id = ${id} and c_id = ${cid}
+                    group by s_id,c_id`,function(success_data){
+                        if(success_data.length==0){
+                            sql(`INSERT INTO studentCourse (s_id, c_id, times) VALUES (${id}, ${cid}, ${times});
+                            `,function(success_data){
+                                // console.log(success_data);
+                                res.send({status:200,data:{},message:'选课成功'});
+                                
+                            },function(){
+                                res.send({status:300,data:{},message:'数据库操作失败'});
+                            });
                         }else{
-                            res.send({status:300,data:{},message:'你已经选过该课程'});
+                            sql(`select score from studentCourse
+                            where s_id = ${id} and c_id = ${cid} and times = ${success_data[0].times}`,function(data){
+                                console.log(data[0].score);
+                                if(data[0].score != null){
+                                    times = success_data[0].times+1;
+                                    console.log(times);
+                                   sql(`INSERT INTO studentCourse (s_id, c_id, times) VALUES (${id}, ${cid}, ${times});
+                                   `,function(success_data){
+                                       // console.log(success_data);
+                                       res.send({status:200,data:{},message:'选课成功'});
+                                       
+                                   },function(){
+                                       res.send({status:300,data:{},message:'数据库操作失败'});
+                                   });
+                                }else{
+                                    res.send({status:300,data:{},message:'你已经选过该课程'});
+                                }
+                            },function(){
+                                res.send({status:300,data:{},message:'课程不存在'});
+                            })
                         }
+                        
+        
+        
+                        
+        
                     },function(){
-                        res.send({status:300,data:{},message:'课程不存在'});
-                    })
+                        // sql(`INSERT INTO studentCourse (s_id, c_id, times) VALUES (${id}, ${cid}, ${times});
+                        // `,function(success_data){
+                        //     // console.log(success_data);
+                        //     res.send({status:200,data:{},message:'选课成功'});
+                            
+                        // },function(){
+                        //     res.send({status:300,data:{},message:'数据库操作失败'});
+                        // });
+                         res.send({status:300,data:{},message:'课程不存在'});
+                    });
                 }
-                
-
-
-                
-
-            },function(){
-                // sql(`INSERT INTO studentCourse (s_id, c_id, times) VALUES (${id}, ${cid}, ${times});
-                // `,function(success_data){
-                //     // console.log(success_data);
-                //     res.send({status:200,data:{},message:'选课成功'});
-                    
-                // },function(){
-                //     res.send({status:300,data:{},message:'数据库操作失败'});
-                // });
-                 res.send({status:300,data:{},message:'课程不存在'});
-            });
+            },function(){});
+            
             
         }
     });
@@ -161,7 +169,7 @@ module.exports = function(app){
                 
                 `,function(success_data){
                     // console.log(success_data);
-                    res.send({status:200,data:success_data,message:'选课成功'});
+                    res.send({status:200,data:success_data,message:'退课成功'});
                     
                 },function(){
                     res.send({status:300,data:{},message:'数据库操作失败'});

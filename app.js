@@ -6,6 +6,7 @@ var app = express();
 var login = require('./module/login');
 var student = require('./module/student');
 var teacher = require('./module/teacher');
+var admin = require('./module/admin');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -68,7 +69,7 @@ app.use(bodyParser.text({ type: 'text/html' }))
 login(app);
 student(app);
 teacher(app);
-
+admin(app);
 
 
 // var pool = mysql.createPool({
