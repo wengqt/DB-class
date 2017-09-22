@@ -21,7 +21,9 @@ module.exports = function(app){
         //   console.log(eee,type);
         sql(`select * from ${type} where ${eee}=${id}`,function(success_data){
             if(success_data.length==0){
-
+            console.log(success_data.length);
+            
+                res.send({status:300,data:{},message:'用户名或密码错误'});
             }else{
                 if(success_data[0][ppp]==pw){
                     // var  user = JSON.parse(success_data);
