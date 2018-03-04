@@ -16,6 +16,8 @@ module.exports = function(app){
             },function(){
 
             });
+
+
         }
     });
     app.post('/admin/putInfo',(req,res)=>{
